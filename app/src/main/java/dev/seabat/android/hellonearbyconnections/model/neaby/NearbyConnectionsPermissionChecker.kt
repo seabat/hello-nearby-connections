@@ -2,7 +2,6 @@ package dev.seabat.android.hellonearbyconnections.model.neaby
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.os.Build
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -47,21 +46,15 @@ class NearbyConnectionsPermissionChecker(referCallback: ActivityReferCallback) {
 
     /**
      * Nearby Connection API を動作させるのに必要なパーミッション
+     * NOTE: minSdk が 31（Android 12）以上のため、Android 12 未満向けの分岐は不要。
      */
     private val NEARBY_CONNECTIONS_PERMISSIONS =
-        when {
-            Build.VERSION.SDK_INT>= 31 ->
-                arrayOf(
-                    Manifest.permission.ACCESS_COARSE_LOCATION,
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.BLUETOOTH_ADVERTISE,
-                    Manifest.permission.BLUETOOTH_CONNECT,
-                    Manifest.permission.BLUETOOTH_SCAN)
-            else ->
-                arrayOf(
-                    Manifest.permission.ACCESS_COARSE_LOCATION,
-                    Manifest.permission.ACCESS_FINE_LOCATION)
-        }
+        arrayOf(
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.BLUETOOTH_ADVERTISE,
+            Manifest.permission.BLUETOOTH_CONNECT,
+            Manifest.permission.BLUETOOTH_SCAN)
 
     /**
      * permission チェック結果を受信するリスナー
